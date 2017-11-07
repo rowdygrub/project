@@ -1,0 +1,16 @@
+GUI DESIGN
+
+FILE            ADD              EDIT          REPORT                    HELP
+  NEW            ITEMS            CUSTOMER       ALLOFTHEREPORTS           ABOUT
+  SAVE           CUSTOMER         ITEMS                                    MANUAL
+  SAVE AS        SERVER           SERVERS
+  OPEN           MANAGER
+  QUIT
+
+  CREATE ORDER(BUTTON)                    PAY ORDER(SERVER BUTTON)
+  (CREATE SERVING DIALOG DROPDOWN MENU)     ENTER AMOUNT DIALOG
+  (FLAVORS DROPDOWN)
+  (CONTAINERS DROPDOWN)
+  (TOPPINGS DROPDOWN)
+  (TOPPINGS AMOUNT DROPDOWN)
+        (CANCEL) (NEXT) (DONE)
