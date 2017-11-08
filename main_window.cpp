@@ -72,12 +72,12 @@ Main_window::Main_window(){
   toolbar->append(*new_item_button);
 
   //create serving button /create order button
-  Gtk::Image *create_serving_image = Gtk::manage(new Gtk::Image("create_serving.png"));
-  Gtk::ToolButton *create_serving = Gtk::manage(new Gtk::ToolButton(*create_serving_image));
-  create_serving->set_tooltip_markup("Create Serving");
-  create_serving->signal_clicked().connect(sigc::mem_fun(*this,
+  Gtk::Image *create_order_image = Gtk::manage(new Gtk::Image("create_serving.png"));
+  Gtk::ToolButton *create_order = Gtk::manage(new Gtk::ToolButton(*create_order_image));
+  create_order->set_tooltip_markup("Create Order");
+  create_order->signal_clicked().connect(sigc::mem_fun(*this,
   &Main_window::on_create_serving_click));
-  toolbar->append(*create_serving);
+  toolbar->append(*create_order);
 
   //list serving components button
   Gtk::ToolButton *list_serving= Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));

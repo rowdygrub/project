@@ -11,10 +11,18 @@ class Controller{
     void create_serving_dialog();
 
     string list_serving_dialog(); //list a single serving with what items are included
-    vector <Serving> order;  //make a class
+    bool confirm_list_serving_dialog();//confirm the selection of serving
+
+    vector <Serving> serving;//order.h
+
+    int get_counter();
+    void reset_counter();
   private:
     Items items;
-    //counter is used to access order[] vector
-    //int counter;keep a counter of order. increment everytime a order is made, reset when program is started again
+
+    //Person persons;
+
+
+    //TODO WHEN AN ORDER IS PAID OR FULLFILLED, CLEAR THE serving vector with serving.clear()
 };
 #endif

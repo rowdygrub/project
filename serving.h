@@ -10,8 +10,12 @@ class Serving{
 
 
     int get_containers();
-    int get_flavors(int n);
 
+    int get_flavors(int n);
+    int get_flavor_size();
+
+    int get_topping_size();
+    int get_topping(int n);
   private:
     int container;
     vector <int> flavor;
