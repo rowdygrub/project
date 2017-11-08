@@ -44,7 +44,162 @@ void Controller::add_dialog(){
     execute_cmd(item);
 }
 
-void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dropdown
+void Controller::add_person_dialog(int n){
+  if(n == 0)//customer
+  {
+    string name, id, phone;
+
+    Gtk::Dialog *dialog = new Gtk:: Dialog();
+    dialog->set_title("Add Customer");
+
+    //NAME
+    Gtk::HBox b_name;
+
+    Gtk::Label l_name{"Name:"};
+    l_name.set_width_chars(15);
+    b_name.pack_start(l_name,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_name;
+    e_name.set_max_length(50);
+    b_name.pack_start(e_name,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_name,Gtk::PACK_SHRINK);
+
+    //id
+    Gtk::HBox b_id;
+
+    Gtk::Label l_id{"id number:"};
+    l_id.set_width_chars(15);
+    b_id.pack_start(l_id,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_id;
+    e_id.set_max_length(50);
+    b_id.pack_start(e_id,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_id,Gtk::PACK_SHRINK);
+
+    //phone
+    Gtk::HBox b_phone;
+
+    Gtk::Label l_phone{"phone Cost:"};
+    l_phone.set_width_chars(15);
+    b_phone.pack_start(l_phone,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_phone;
+    e_phone.set_max_length(50);
+    b_phone.pack_start(e_phone,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_phone,Gtk::PACK_SHRINK);
+
+    //buttons
+    dialog->add_button("Cancel",0);
+    dialog->add_button("OK",1);
+    dialog->show_all();
+
+    int result = dialog->run();
+    dialog->close();
+
+    while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+    name = e_name.get_text();
+    id = e_id.get_text();
+    phone = e_phone.get_text();
+
+
+    if(result == 1)
+    {
+      int id_int = std::stoi(id);
+      Person persons{name,id_int,phone};
+      customer.push_back(persons);
+    }
+    delete dialog;
+  }
+
+  if(n == 1)//server
+  {
+    string name, id, phone, salary;
+
+    Gtk::Dialog *dialog = new Gtk:: Dialog();
+    dialog->set_title("Add Customer");
+
+    //NAME
+    Gtk::HBox b_name;
+
+    Gtk::Label l_name{"Name:"};
+    l_name.set_width_chars(15);
+    b_name.pack_start(l_name,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_name;
+    e_name.set_max_length(50);
+    b_name.pack_start(e_name,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_name,Gtk::PACK_SHRINK);
+
+    //id
+    Gtk::HBox b_id;
+
+    Gtk::Label l_id{"id number:"};
+    l_id.set_width_chars(15);
+    b_id.pack_start(l_id,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_id;
+    e_id.set_max_length(50);
+    b_id.pack_start(e_id,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_id,Gtk::PACK_SHRINK);
+
+    //phone
+    Gtk::HBox b_phone;
+
+    Gtk::Label l_phone{"phone Cost:"};
+    l_phone.set_width_chars(15);
+    b_phone.pack_start(l_phone,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_phone;
+    e_phone.set_max_length(50);
+    b_phone.pack_start(e_phone,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_phone,Gtk::PACK_SHRINK);
+
+    //salary
+    Gtk::HBox b_salary;
+
+    Gtk::Label l_salary{"Salary wage:"};
+    l_salary.set_width_chars(15);
+    b_salary.pack_start(l_salary,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_salary;
+    e_salary.set_max_length(50);
+    b_salary.pack_start(e_salary,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_salary,Gtk::PACK_SHRINK);
+
+    //buttons
+    dialog->add_button("Cancel",0);
+    dialog->add_button("OK",1);
+    dialog->show_all();
+
+    int result = dialog->run();
+    dialog->close();
+
+    while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+    name = e_name.get_text();
+    id = e_id.get_text();
+    phone = e_phone.get_text();
+    salary = e_salary.get_text();
+
+    if(result == 1)
+    {
+      int id_int = std::stoi(id);
+      double salary_double = std::stod(salary);
+      Server server{name,id_int,phone,0,salary_double};
+      servers.push_back(server);
+    }
+    delete dialog;
+  }
+
+  if(n == 2)//manager
+  {
+
+  }
+
+}
+
+void Controller::create_order_dialog(){
   Gtk::Dialog *dialogO = new Gtk::Dialog();
   dialogO->set_title("Create Order");
 
@@ -71,7 +226,7 @@ void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dr
 
   while(Gtk::Main::events_pending()) Gtk::Main::iteration();
 
-
+  int amount_of_serving_counter = 0;
   //select Container
   while(result){
     if(result == 1){
@@ -194,10 +349,10 @@ void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dr
       }
 
 
-      if(result == 2){
+      if(result == 2){ //confirms the serving to be added to order else not added
         Serving s{container,toppings,flavor};//add topping_amount
         serving.push_back(s);
-        if(Controller::confirm_list_serving_dialog() == false)
+        if(Controller::confirm_list_serving_dialog(amount_of_serving_counter) == false)
           serving.pop_back();
       }
 
@@ -206,7 +361,7 @@ void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dr
     //ask for another serving
     if(result == 2){
       Gtk::Dialog *dialog_loop = new Gtk::Dialog();
-      dialog_loop->set_title("Creat Serving");
+      dialog_loop->set_title("Create Serving");
 
       Gtk::HBox b_loop;
 
@@ -231,6 +386,9 @@ void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dr
 
       while(Gtk::Main::events_pending()) Gtk::Main::iteration();
       result = c_loop.get_active_row_number();
+      if(result == 1)
+        amount_of_serving_counter++;
+
       delete dialog_loop;
     }
   }
@@ -238,19 +396,19 @@ void Controller::create_serving_dialog(){ ///TODO Order as Customer or Server Dr
 }
 
 //list order contents
-string Controller::list_serving_dialog(){//TODO List as Server(Contents to make ice cream) or Customer(Price)
+string Controller::list_order_dialog(){//TODO List as Server(Contents to make ice cream) or Customer(Price)
   int loop = 0;
   Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Order");
   string f;
   while(loop < serving.size()){
     //loop through for each serving, for each flavor and topping
 
-    f = f + ":Container:" + items.containers_to_string(serving[loop].get_containers())+ "\n\nFlavor:";
+    f = f + "Container:" + items.containers_to_string(serving[loop].get_containers())+ "\nFlavor:";
     for(int i = 0; i < serving[loop].get_flavor_size(); i++)
     {
       f = f + items.flavors_to_string(serving[loop].get_flavors(i)) + "\n\t\t";
     }
-    f = f + "\nToppings:";
+    f = f + "Toppings:";
     for(int i = 0; i < serving[loop].get_topping_size(); i++)
     {
       f = f + items.toppings_to_string(serving[loop].get_topping(i)) + "\n\n";
@@ -270,7 +428,7 @@ string Controller::list_serving_dialog(){//TODO List as Server(Contents to make 
 }
 
 //confirms the selection of serving
-bool Controller::confirm_list_serving_dialog(){
+bool Controller::confirm_list_serving_dialog(int counter){
   Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Serving");
   string f, t;
   //loop through for each serving, for each flavor and topping

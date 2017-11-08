@@ -4,12 +4,21 @@ all: main
 debug: CXXFLAGS += -g
 debug: main
 
-main:	main.o flavors.o containers.o items.o toppings.o main_window.o controller.o serving.o
-	$(CXX) $(CXXFLAGS) -o main main.o flavors.o containers.o items.o toppings.o main_window.o controller.o serving.o `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
+main:	main.o flavors.o containers.o items.o toppings.o main_window.o controller.o serving.o person.o customer.o server.o
+	$(CXX) $(CXXFLAGS) -o main main.o flavors.o containers.o items.o toppings.o main_window.o controller.o serving.o person.o customer.o server.o `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
 
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
+
+server.o:server.cpp server.h
+	$(CXX) $(CXXFLAGS) -c server.cpp `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
+
+customer.o:customer.cpp customer.h
+	$(CXX) $(CXXFLAGS) -c customer.cpp `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
+
+person.o: person.cpp person.h
+	$(CXX) $(CXXFLAGS) -c person.cpp `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
 
 serving.o:serving.cpp serving.h
 	$(CXX) $(CXXFLAGS) -c serving.cpp `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`

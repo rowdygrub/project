@@ -41,10 +41,15 @@ Main_window::Main_window(){
   m_items->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_add_items_click));
   add_menu->append(*m_items);
 
-  /*TODO
-    append CUSTOMER
-    append SERVER
-  */
+  //append customer to add menu
+  Gtk::MenuItem *m_customer = Gtk::manage(new Gtk::MenuItem("_Customer",true));
+  m_customer->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_add_customer_click));
+  add_menu->append(*m_customer);
+
+  //append server to add menu
+  Gtk::MenuItem *m_server = Gtk::manage(new Gtk::MenuItem("_Server",true));
+  m_server->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_add_server_click));
+  add_menu->append(*m_server);
 
   //create serving dropdown(Make a order button later)(Gtk::Toolbar)
   Gtk::MenuItem *menuitem_create = Gtk::manage(new Gtk::MenuItem("_Create",true));
@@ -53,9 +58,9 @@ Main_window::Main_window(){
   menuitem_create->set_submenu(*add_create_menu);
 
   //append create to serving menu
-  Gtk::MenuItem *serving = Gtk::manage(new Gtk::MenuItem("_Serving",true));
-  serving->signal_activate().connect(sigc::mem_fun(*this,&Main_window::on_create_serving_click));
-  add_create_menu->append(*serving);
+  Gtk::MenuItem *order = Gtk::manage(new Gtk::MenuItem("_Order",true));
+  order->signal_activate().connect(sigc::mem_fun(*this,&Main_window::on_create_order_click));
+  add_create_menu->append(*order);
 
 
   //TODO EDIT REPORT ABOUT dropdown menu
@@ -72,11 +77,11 @@ Main_window::Main_window(){
   toolbar->append(*new_item_button);
 
   //create serving button /create order button
-  Gtk::Image *create_order_image = Gtk::manage(new Gtk::Image("create_serving.png"));
+  Gtk::Image *create_order_image = Gtk::manage(new Gtk::Image("create_order.png"));
   Gtk::ToolButton *create_order = Gtk::manage(new Gtk::ToolButton(*create_order_image));
   create_order->set_tooltip_markup("Create Order");
   create_order->signal_clicked().connect(sigc::mem_fun(*this,
-  &Main_window::on_create_serving_click));
+  &Main_window::on_create_order_click));
   toolbar->append(*create_order);
 
   //list serving components button
@@ -101,7 +106,9 @@ Main_window::Main_window(){
   vbox->show_all();
 }
 
-void Main_window::on_list_serving_click(){controller.list_serving_dialog();}
-void Main_window::on_create_serving_click(){controller.create_serving_dialog();}
+void Main_window::on_list_serving_click(){controller.list_order_dialog();}
+void Main_window::on_create_order_click(){controller.create_order_dialog();}
 void Main_window::on_quit_click(){hide();}
 void Main_window::on_add_items_click(){controller.add_dialog();}
+void Main_window::on_add_customer_click(){controller.add_person_dialog(0);}
+void Main_window::on_add_server_click(){controller.add_person_dialog(1);}

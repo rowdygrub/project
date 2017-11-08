@@ -9,9 +9,15 @@ class Main_window : public Gtk::Window{
     virtual ~Main_window();
   protected:
     void on_quit_click();
+
     void on_add_items_click();
-    void on_create_serving_click(); //make create order click
+    void on_add_customer_click();
+    void on_add_server_click();
+    void on_add_manager_click();
+
+    void on_create_order_click(); //make create order click
     void on_list_serving_click();
+
   private:
     Controller controller;
 };
