@@ -6,6 +6,7 @@
 #include "customer.h"
 #include "server.h"
 #include "person.h"
+
 class Controller{
   public:
     void execute_cmd(int cmd);
@@ -23,7 +24,9 @@ class Controller{
 
   private:
     Items items;
-
+    string id;
+    string server_name;
+    string customer_name;
 
 
 

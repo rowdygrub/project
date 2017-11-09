@@ -217,6 +217,42 @@ void Controller::create_order_dialog(){
   b_order.pack_start(c_order,Gtk::PACK_SHRINK);
   dialogO->get_vbox()->pack_start(b_order,Gtk::PACK_SHRINK);
 
+  //get order info
+  Gtk::HBox b_id;
+  Gtk::Label l_id{"ID Number:"};//make a drop with list of customer
+  l_id.set_width_chars(15);
+  b_id.pack_start(l_id,Gtk::PACK_SHRINK);
+
+  Gtk::Entry e_id;
+  e_id.set_max_length(50);
+  b_id.pack_start(e_id,Gtk::PACK_SHRINK);
+  dialogO->get_vbox()->pack_start(b_id,Gtk::PACK_SHRINK);
+
+  Gtk::HBox b_customer_name;
+
+  Gtk::Label l_customer_name{"Customer Name:"};//make a drop with list of customer
+  l_customer_name.set_width_chars(15);
+  b_customer_name.pack_start(l_customer_name,Gtk::PACK_SHRINK);
+
+  Gtk::Entry e_customer_name;
+  e_customer_name.set_max_length(50);
+  b_customer_name.pack_start(e_customer_name,Gtk::PACK_SHRINK);
+  dialogO->get_vbox()->pack_start(b_customer_name,Gtk::PACK_SHRINK);
+
+  Gtk::HBox b_server_name;
+
+  Gtk::Label l_server_name{"Server Name:"};
+  l_server_name.set_width_chars(15);
+  b_server_name.pack_start(l_server_name,Gtk::PACK_SHRINK);
+
+  Gtk::Entry e_server_name;
+  e_server_name.set_max_length(50);
+  b_server_name.pack_start(e_server_name,Gtk::PACK_SHRINK);
+  dialogO->get_vbox()->pack_start(b_server_name,Gtk::PACK_SHRINK);
+
+
+
+
   dialogO->add_button("Cancel",0);
   dialogO->add_button("OK",1);
   dialogO->show_all();
@@ -351,6 +387,9 @@ void Controller::create_order_dialog(){
 
       if(result == 2){ //confirms the serving to be added to order else not added
         Serving s{container,toppings,flavor};//add topping_amount
+
+        //cout << s; OPERATOR OVERLOAD, but seg fault
+
         serving.push_back(s);
         if(Controller::confirm_list_serving_dialog(amount_of_serving_counter) == false)
           serving.pop_back();
@@ -408,7 +447,7 @@ string Controller::list_order_dialog(){//TODO List as Server(Contents to make ic
     {
       f = f + items.flavors_to_string(serving[loop].get_flavors(i)) + "\n\t\t";
     }
-    f = f + "Toppings:";
+    f = f + "\nToppings:";
     for(int i = 0; i < serving[loop].get_topping_size(); i++)
     {
       f = f + items.toppings_to_string(serving[loop].get_topping(i)) + "\n\n";
