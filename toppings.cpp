@@ -10,3 +10,9 @@ bool Toppings::is_stock(){
 }
 
 string Toppings::to_string(){return name;}
+
+string Toppings::to_string2(){
+  string s = std::to_string(wholesale_cost) + "\n" + std::to_string(retail_price) + "\n" + std::to_string(stock);
+
+  return "\n" + description + "\n" + s + "\n";
+}

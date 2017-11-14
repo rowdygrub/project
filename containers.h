@@ -12,6 +12,7 @@ class Containers{
       stock{stock}, maximum{maximum} {}
 
     string to_string(); //list the contents
+    string to_string2();//list everything else
     int get_maximum();//get the max to compare to number of scoops customer wants
     bool is_stock();//decrement each time containers is used and if(stock == 0) then sold out
   private:

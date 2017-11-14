@@ -20,10 +20,19 @@ Main_window::Main_window(){
   /*  TODO
       append NEW
       append OPEN
-      append SAVE
       append SAVE AS
 
   */
+
+  //append open to the file menu
+  Gtk::MenuItem *menuitem_load = Gtk::manage(new Gtk::MenuItem("_Load",true));
+  menuitem_load->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_load_click));
+  filemenu->append(*menuitem_load);
+
+  //append save to the file menu
+  Gtk::MenuItem *menuitem_save = Gtk::manage(new Gtk::MenuItem("_Save",true));
+	menuitem_save->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_save_click));
+	filemenu->append(*menuitem_save);
 
   //append quit to the file menu
 	Gtk::MenuItem *menuitem_quit = Gtk::manage(new Gtk::MenuItem("_Quit",true));
@@ -112,3 +121,5 @@ void Main_window::on_quit_click(){hide();}
 void Main_window::on_add_items_click(){controller.add_dialog();}
 void Main_window::on_add_customer_click(){controller.add_person_dialog(0);}
 void Main_window::on_add_server_click(){controller.add_person_dialog(1);}
+void Main_window::on_save_click(){controller.save();}
+void Main_window::on_load_click(){controller.load();}

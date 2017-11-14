@@ -6,15 +6,28 @@
 #include "toppings.h"
 #include <vector>
 
+#include <sstream>
+
+
+
 class Items {
   public:
     void add_flavors();
     void add_containers();
     void add_toppings();
 
+    void load_flavors(string f);
+    void load_container(string c);
+    void load_toppings(string t);
+    
     string containers_to_string(int index);
     string flavors_to_string(int index);
     string toppings_to_string(int index);
+
+    string flavors_to_string2(int index);
+    string containers_to_string2(int index);
+    string toppings_to_string2(int index);
+
 
     int get_max_containers(int index);
 

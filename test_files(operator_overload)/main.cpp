@@ -6,6 +6,7 @@
 #include "iostream"
 #include "serving.h"
 #include <vector>
+#include <fstream>
 
 void menu();
 void execute_cmd();
@@ -83,6 +84,8 @@ void test_serving()//OVERLOAD OPERATOR
 }
 
 int main(){
+  ofstream ofs {"file"};
+  ofs << "Writing to file\n";
   execute_cmd();
   test_person();
   test_serving();//OPERATOR OPERATOR

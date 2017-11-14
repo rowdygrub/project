@@ -15,14 +15,26 @@ string Items::containers_to_string(int index){
   string s = containers[index].to_string();
   return s;
 }
-
+string Items::containers_to_string2(int index){
+  string s = containers[index].to_string2();
+  return s;
+}
 string Items::flavors_to_string(int index){
   string s = flavors[index].to_string();
+  return s;
+}
+string Items::flavors_to_string2(int index){
+  string s = flavors[index].to_string2();
   return s;
 }
 
 string Items::toppings_to_string(int index){
   string s = toppings[index].to_string();
+  return s;
+}
+
+string Items::toppings_to_string2(int index){
+  string s = toppings[index].to_string2();
   return s;
 }
 
@@ -218,7 +230,7 @@ void Items::add_toppings(){
   }
 }
 
-void::Items::add_containers(){
+void Items::add_containers(){
   int maximum;
   string name, description, wholesale, retail, stock_string, maximum_string;
   double wholesale_cost, retail_price;
@@ -327,4 +339,71 @@ void::Items::add_containers(){
     Containers c{name,description,wholesale_cost, retail_price,stock, maximum};
     containers.push_back(c);
   }
+}
+
+void Items::load_flavors(string f){
+  string buf;
+  std::istringstream s2(f);
+  vector<string> tokens;
+
+  while(s2 >> buf)
+    tokens.push_back(buf);
+
+
+
+  string name = tokens[0];
+  string description = tokens[1];
+
+  double wholesale_cost = std::stod(tokens[2]);
+  double retail_price = std::stod(tokens[3]);
+  int stock = std::stoi(tokens[4]);
+
+  Flavors F{name, description,wholesale_cost,retail_price, stock};
+
+  flavors.push_back(F);
+
+}
+
+
+void Items::load_container(string c){
+  string buf;
+  std::istringstream s2(c);
+  vector<string> tokens;
+
+  while(s2 >> buf)
+    tokens.push_back(buf);
+
+    string name = tokens[0];
+    string description = tokens[1];
+
+    double wholesale_cost = std::stod(tokens[2]);
+    double retail_price = std::stod(tokens[3]);
+    int stock = std::stoi(tokens[4]);
+    int maximum = std::stoi(tokens[5]);
+
+    Containers C{name, description,wholesale_cost,retail_price, stock, maximum};
+    containers.push_back(C);
+}
+
+void Items::load_toppings(string t){
+  string buf;
+  std::istringstream s2(t);
+  vector<string> tokens;
+
+  while(s2 >> buf)
+    tokens.push_back(buf);
+
+
+
+  string name = tokens[0];
+  string description = tokens[1];
+
+  double wholesale_cost = std::stod(tokens[2]);
+  double retail_price = std::stod(tokens[3]);
+  int stock = std::stoi(tokens[4]);
+
+  Toppings T{name, description,wholesale_cost,retail_price, stock};
+
+  toppings.push_back(T);
+
 }

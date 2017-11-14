@@ -496,3 +496,122 @@ bool Controller::confirm_list_serving_dialog(int counter){
   if(result)
     return true;
 }
+
+void Controller::save(){
+  ofstream ofs {"file"};
+
+  //flavors to file
+  ofs << "flavor\n";
+  for(int i = 0; i < items.number_of_flavors(); i++)
+  {
+    ofs << items.flavors_to_string(i);
+    ofs << items.flavors_to_string2(i);
+    ofs << "\n";
+  }
+
+
+  //look for string container to load
+  ofs << "container\n";
+
+  for(int i = 0; i < items.number_of_containers(); i++)
+  {
+    ofs << items.containers_to_string(i);
+    ofs << items.containers_to_string2(i);
+    ofs << "\n";
+  }
+
+
+  //look for string topping to load
+  ofs << "topping\n";
+
+  for(int i = 0; i < items.number_of_toppings(); i++)
+  {
+    ofs << items.toppings_to_string(i);
+    ofs << items.toppings_to_string2(i);
+    ofs << "\n";
+  }
+}
+
+void Controller::load(){
+  ifstream ifs {"file"};
+
+  if(ifs.is_open())
+  {
+    //temp to store strings, then pass each string to items.load_flavor()
+    vector <string> flavor;
+    vector <string> container;
+    vector <string> topping;
+    string f;
+    string c;
+    string t;
+    int i;
+    cout << "File Loaded\n";
+    string s;//temp for input
+    if(ifs >> s && s == "flavor") //check for flavor tag
+
+    while(ifs >> s && s != "container" && s != "topping")
+    {
+      flavor.push_back(s);
+    }
+
+    //loop through each name,description, wholesale_cost, retail_price, stock
+    //for each flavor
+    for(i = 0; i < flavor.size(); i++)
+    {
+      if(i % 5 == 0 && i != 0)
+      {
+        items.load_flavors(f);
+        f.clear();
+      }
+
+      f = f  + flavor[i] + " ";
+    }
+    //extra load flavor because of mod out of range
+    items.load_flavors(f);
+
+
+    while(ifs >> s && s != "topping" && s != "flavor")//get container
+    {
+      container.push_back(s);
+    }
+
+    for(int i = 0; i < container.size();i++)
+    {
+      if(i % 6 == 0 && i != 0)
+      {
+        items.load_container(c);
+        c.clear();
+      }
+
+      c = c + container[i] + " ";
+    }
+    //extra load container because of mod out of range
+    items.load_container(c);
+
+
+    //load toppings
+    while(ifs >> s && s != "container" && s != "flavor")//get topping
+    {
+      topping.push_back(s);
+    }
+
+    for(i = 0; i < topping.size(); i++)
+    {
+      if(i % 5 == 0 && i != 0)
+      {
+        items.load_toppings(t);
+        t.clear();
+      }
+
+      t = t  + topping[i] + " ";
+    }
+    //extra load topping because mod out of range
+    items.load_toppings(t);
+
+  }
+  else
+    cout << "Not Loaded\n";
+
+  ifs.close();
+
+}
