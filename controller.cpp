@@ -200,6 +200,11 @@ void Controller::add_person_dialog(int n){
 }
 
 void Controller::create_order_dialog(){
+  serving.clear();
+  status = "Unfilled";
+  int temp; //to carry through result at the end for state machine
+  bool check;//to carry through result at the end for state machine
+
   Gtk::Dialog *dialogO = new Gtk::Dialog();
   dialogO->set_title("Create Order");
 
@@ -250,7 +255,7 @@ void Controller::create_order_dialog(){
   b_server_name.pack_start(e_server_name,Gtk::PACK_SHRINK);
   dialogO->get_vbox()->pack_start(b_server_name,Gtk::PACK_SHRINK);
 
-
+  //TODO GET ENTRIES AND STORE INTO STRING
 
 
   dialogO->add_button("Cancel",0);
@@ -391,14 +396,18 @@ void Controller::create_order_dialog(){
         //cout << s; OPERATOR OVERLOAD, but seg fault
 
         serving.push_back(s);
-        if(Controller::confirm_list_serving_dialog(amount_of_serving_counter) == false)
+        check = Controller::confirm_list_serving_dialog(amount_of_serving_counter);
+        if(check == false)
           serving.pop_back();
       }
 
       delete dialog;
     }
+
+
     //ask for another serving
     if(result == 2){
+
       Gtk::Dialog *dialog_loop = new Gtk::Dialog();
       dialog_loop->set_title("Create Serving");
 
@@ -431,6 +440,14 @@ void Controller::create_order_dialog(){
       delete dialog_loop;
     }
   }
+
+  temp = result;//to carry through a filled serving
+  //STATE MACHINE
+  if(temp || check)
+    status = "Filled";        //when filled, decrement stocks
+  else
+    status = "Unfilled";
+
   delete dialogO;
 }
 
@@ -495,6 +512,59 @@ bool Controller::confirm_list_serving_dialog(int counter){
 
   if(result)
     return true;
+}
+
+//STATE MACHINE
+void Controller::pay(){
+  Gtk::Dialog *dialog = new Gtk::Dialog();
+  dialog->set_title("Pay Order");
+
+  if(status == "Filled")
+  {
+    Gtk::HBox b_pay;
+    Gtk::Label l_pay{"Pay Order?"};
+    l_pay.set_width_chars(15);
+    b_pay.pack_start(l_pay,Gtk::PACK_SHRINK);
+
+    Gtk::ComboBoxText c_pay;
+    c_pay.set_size_request(160);
+    c_pay.append("Yes");
+    c_pay.append("No");
+
+    b_pay.pack_start(c_pay,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_pay,Gtk::PACK_SHRINK);
+
+    dialog->add_button("OK",1);
+    dialog->show_all();
+
+    int result = dialog->run();
+    dialog->close();
+    while(Gtk::Main::events_pending()) Gtk::Main::iteration();
+
+    if(c_pay.get_active_row_number() == 0)
+      status = "Paid";                          //calculate profit
+    else
+      status = "Unpaid/Cancel";                //lost profit calculations
+  }
+
+  if(status != "Filled")
+  {
+    Gtk::HBox b_pay;
+    Gtk::Label l_pay{"Order is Not filled or has been paid\nPlease fill order"};
+    l_pay.set_width_chars(15);
+    b_pay.pack_start(l_pay,Gtk::PACK_SHRINK);
+
+    dialog->get_vbox()->pack_start(b_pay,Gtk::PACK_SHRINK);
+
+    dialog->add_button("OK",1);
+    dialog->show_all();
+
+    int result = dialog->run();
+    dialog->close();
+    while(Gtk::Main::events_pending()) Gtk::Main::iteration();
+  }
+
+  delete dialog;
 }
 
 void Controller::save(){
@@ -614,4 +684,13 @@ void Controller::load(){
 
   ifs.close();
 
+}
+
+void Controller::show_status(){
+  Gtk::MessageDialog *dialog = new Gtk::MessageDialog("Show Status");
+  dialog->set_secondary_text("Current Status: " + status);
+  dialog->run();dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+  delete dialog;
 }

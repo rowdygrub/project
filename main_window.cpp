@@ -100,6 +100,21 @@ Main_window::Main_window(){
   &Main_window::on_list_serving_click));
   toolbar->append(*list_serving);
 
+  //pay order
+  Gtk::Image *pay_order_image = Gtk::manage(new Gtk::Image("pay_order.png"));
+  Gtk::ToolButton *pay_order= Gtk::manage(new Gtk::ToolButton(*pay_order_image));
+  pay_order->set_tooltip_markup("Pay");
+  pay_order->signal_clicked().connect(sigc::mem_fun(*this,
+  &Main_window::on_pay_order_click));
+  toolbar->append(*pay_order);
+
+  //show status button
+  Gtk::ToolButton *show_status= Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
+  show_status->set_tooltip_markup("Show Status");
+  show_status->signal_clicked().connect(sigc::mem_fun(*this,
+  &Main_window::on_show_status_click));
+  toolbar->append(*show_status);
+
   //seperate
   Gtk::SeparatorToolItem *sep = Gtk::manage(new Gtk::SeparatorToolItem());
   sep->set_expand(true);  // The expanding sep forces the Quit button to the right
@@ -123,3 +138,5 @@ void Main_window::on_add_customer_click(){controller.add_person_dialog(0);}
 void Main_window::on_add_server_click(){controller.add_person_dialog(1);}
 void Main_window::on_save_click(){controller.save();}
 void Main_window::on_load_click(){controller.load();}
+void Main_window::on_pay_order_click(){controller.pay();}
+void Main_window::on_show_status_click(){controller.show_status();}

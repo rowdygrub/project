@@ -16,11 +16,14 @@ class Main_window : public Gtk::Window{
     void on_add_manager_click();
     void on_save_click();
     void on_load_click();
-    
+    void on_pay_order_click();
+    void on_show_status_click();
+
     void on_create_order_click(); //make create order click
     void on_list_serving_click();
 
   private:
     Controller controller;
+
 };
 #endif

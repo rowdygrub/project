@@ -15,6 +15,9 @@ class Controller{
     void add_person_dialog(int n);
     void create_order_dialog();
 
+    void pay();
+    void show_status();
+
     void save();
     void load();
 
@@ -28,14 +31,17 @@ class Controller{
 
   private:
     Items items;
-    
+
     string id;
     string server_name;
     string customer_name;
 
+    //STATE MACHINE
     //change this status throughout the order unfilled
-    string status = "unfilled"; //make a check status popup dialog
+    string status = "Unfilled"; //make a check status popup dialog
 
+    //cash register, every cash register starts at 500
+    double cash_register = 500.00;
 
     //TODO WHEN AN ORDER IS PAID OR FULLFILLED, CLEAR THE serving vector with serving.clear()
 };
