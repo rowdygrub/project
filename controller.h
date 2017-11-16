@@ -28,7 +28,7 @@ class Controller{
 
     vector <Person> customer;
     vector <Server> servers;
-
+    //add a manager vector
   private:
     Items items;
 
@@ -42,7 +42,7 @@ class Controller{
 
     //cash register, every cash register starts at 500
     double cash_register = 500.00;
-
+    double amount_due;
     //TODO WHEN AN ORDER IS PAID OR FULLFILLED, CLEAR THE serving vector with serving.clear()
 };
 #endif

@@ -200,7 +200,7 @@ void Controller::add_person_dialog(int n){
 }
 
 void Controller::create_order_dialog(){
-  serving.clear();
+  serving.clear(); //create new order clears everything before starting
   status = "Unfilled";
   int temp; //to carry through result at the end for state machine
   bool check;//to carry through result at the end for state machine
@@ -399,6 +399,21 @@ void Controller::create_order_dialog(){
         check = Controller::confirm_list_serving_dialog(amount_of_serving_counter);
         if(check == false)
           serving.pop_back();
+        else //decrement inventory
+        {
+          items.is_stock_container(container);
+
+          for(int i = 0; i < toppings.size();i++)
+          {
+            items.is_stock_topping(toppings[i]);
+          }
+
+          for(int i = 0; i < flavor.size();i++)
+          {
+            items.is_stock_flavor(flavor[i]);
+          }
+
+        }
       }
 
       delete dialog;
@@ -453,6 +468,7 @@ void Controller::create_order_dialog(){
 
 //list order contents
 string Controller::list_order_dialog(){//TODO List as Server(Contents to make ice cream) or Customer(Price)
+  amount_due = 0; //set to zero everytime this method is called to get correct amount_due
   int loop = 0;
   Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Order");
   string f;
@@ -460,14 +476,18 @@ string Controller::list_order_dialog(){//TODO List as Server(Contents to make ic
     //loop through for each serving, for each flavor and topping
 
     f = f + "Container:" + items.containers_to_string(serving[loop].get_containers())+ "\nFlavor:";
+    amount_due = amount_due + items.get_container_retail_price(serving[loop].get_containers());
+
     for(int i = 0; i < serving[loop].get_flavor_size(); i++)
     {
       f = f + items.flavors_to_string(serving[loop].get_flavors(i)) + "\n\t\t";
+      amount_due = amount_due + items.get_flavor_retail_price(serving[loop].get_flavors(i));
     }
     f = f + "\nToppings:";
     for(int i = 0; i < serving[loop].get_topping_size(); i++)
     {
       f = f + items.toppings_to_string(serving[loop].get_topping(i)) + "\n\n";
+      amount_due = amount_due + items.get_topping_retail_price(serving[loop].get_topping(i));
     }
     loop++;
   }
@@ -480,7 +500,7 @@ string Controller::list_order_dialog(){//TODO List as Server(Contents to make ic
   while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 
   delete dialog;
-
+  cout << "current amount for order: " << amount_due << endl; //check for correct amount
 }
 
 //confirms the selection of serving
@@ -542,12 +562,18 @@ void Controller::pay(){
     while(Gtk::Main::events_pending()) Gtk::Main::iteration();
 
     if(c_pay.get_active_row_number() == 0)
+    {
       status = "Paid";                          //calculate profit
+      cash_register = cash_register + amount_due;
+      amount_due = 0;
+      cout << "cash register: " << cash_register << endl; //to check
+      serving.clear();
+    }
     else
       status = "Unpaid/Cancel";                //lost profit calculations
+      serving.clear(); //clear and not paid
   }
-
-  if(status != "Filled")
+  else
   {
     Gtk::HBox b_pay;
     Gtk::Label l_pay{"Order is Not filled or has been paid\nPlease fill order"};
@@ -600,6 +626,7 @@ void Controller::save(){
     ofs << items.toppings_to_string2(i);
     ofs << "\n";
   }
+  cout << "File Saved\n";
 }
 
 void Controller::load(){

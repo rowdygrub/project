@@ -6,9 +6,12 @@ bool Toppings::is_stock(){
     return false;
   }
   stock = stock - 1;
+  cout << name << stock << endl;
   return true;
 }
-
+double Toppings::get_retail_price(){
+  return retail_price;
+}
 string Toppings::to_string(){return name;}
 
 string Toppings::to_string2(){

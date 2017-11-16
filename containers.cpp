@@ -6,7 +6,12 @@ bool Containers::is_stock(){
     return false;
   }
   stock = stock - 1;
+  cout << name << stock << endl;
   return true;
+}
+
+double Containers::get_retail_price(){
+  return retail_price;
 }
 
 int Containers::get_maximum(){

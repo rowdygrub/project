@@ -19,7 +19,7 @@ class Items {
     void load_flavors(string f);
     void load_container(string c);
     void load_toppings(string t);
-    
+
     string containers_to_string(int index);
     string flavors_to_string(int index);
     string toppings_to_string(int index);
@@ -28,12 +28,19 @@ class Items {
     string containers_to_string2(int index);
     string toppings_to_string2(int index);
 
+    double get_flavor_retail_price(int index);
+    double get_container_retail_price(int index);
+    double get_topping_retail_price(int index);
 
     int get_max_containers(int index);
 
     int number_of_flavors();
     int number_of_containers();
     int number_of_toppings();
+
+    void is_stock_flavor(int index);
+    void is_stock_container(int index);
+    void is_stock_topping(int index);
   private:
     vector <Flavors> flavors;
     vector <Containers> containers;

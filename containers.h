@@ -11,6 +11,7 @@ class Containers{
       : name{name}, description{description}, wholesale_cost{wholesale_cost}, retail_price{retail_price},
       stock{stock}, maximum{maximum} {}
 
+    double get_retail_price();
     string to_string(); //list the contents
     string to_string2();//list everything else
     int get_maximum();//get the max to compare to number of scoops customer wants

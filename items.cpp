@@ -407,3 +407,30 @@ void Items::load_toppings(string t){
   toppings.push_back(T);
 
 }
+
+double Items::get_flavor_retail_price(int index){
+  double d = flavors[index].get_retail_price();
+  return d;
+}
+
+double Items::get_topping_retail_price(int index){
+  double d = toppings[index].get_retail_price();
+  return d;
+}
+
+double Items::get_container_retail_price(int index){
+  double d = containers[index].get_retail_price();
+  return d;
+}
+
+void Items::is_stock_container(int index){
+  containers[index].is_stock();
+}
+
+void Items::is_stock_flavor(int index){
+  flavors[index].is_stock();
+}
+
+void Items::is_stock_topping(int index){
+  toppings[index].is_stock();
+}
