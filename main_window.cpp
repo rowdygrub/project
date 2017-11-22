@@ -95,10 +95,17 @@ Main_window::Main_window(){
 
   //list serving components button
   Gtk::ToolButton *list_serving= Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
-  list_serving->set_tooltip_markup("List Serving");
+  list_serving->set_tooltip_markup("List Order as Server");
   list_serving->signal_clicked().connect(sigc::mem_fun(*this,
   &Main_window::on_list_serving_click));
   toolbar->append(*list_serving);
+
+  //list order components button to customer
+  Gtk::ToolButton *list_order= Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
+  list_order->set_tooltip_markup("List Order as Customer");
+  list_order->signal_clicked().connect(sigc::mem_fun(*this,
+  &Main_window::on_list_order_customer_click));
+  toolbar->append(*list_order);
 
   //pay order
   Gtk::Image *pay_order_image = Gtk::manage(new Gtk::Image("pay_order.png"));
@@ -140,3 +147,4 @@ void Main_window::on_save_click(){controller.save();}
 void Main_window::on_load_click(){controller.load();}
 void Main_window::on_pay_order_click(){controller.pay();}
 void Main_window::on_show_status_click(){controller.show_status();}
+void Main_window::on_list_order_customer_click(){controller.list_order_customer();}

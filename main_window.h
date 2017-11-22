@@ -21,6 +21,7 @@ class Main_window : public Gtk::Window{
 
     void on_create_order_click(); //make create order click
     void on_list_serving_click();
+    void on_list_order_customer_click();//list as customer price
 
   private:
     Controller controller;

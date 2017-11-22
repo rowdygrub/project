@@ -8,6 +8,7 @@
 #include "person.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 class Controller{
   public:
     void execute_cmd(int cmd);
@@ -21,8 +22,9 @@ class Controller{
     void save();
     void load();
 
-    string list_order_dialog(); //list a single serving with what items are included
+    string list_order_dialog(); //list a single order with what items are included as server
     bool confirm_list_serving_dialog(int counter);//confirm the selection at the end of 1 serving
+    string list_order_customer();//
 
     vector <Serving> serving;  //an order of servings
 
@@ -43,6 +45,6 @@ class Controller{
     //cash register, every cash register starts at 500
     double cash_register = 500.00;
     double amount_due;
-    //TODO WHEN AN ORDER IS PAID OR FULLFILLED, CLEAR THE serving vector with serving.clear()
+
 };
 #endif

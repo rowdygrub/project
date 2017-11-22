@@ -466,28 +466,26 @@ void Controller::create_order_dialog(){
   delete dialogO;
 }
 
-//list order contents
+//list order contents as server
 string Controller::list_order_dialog(){//TODO List as Server(Contents to make ice cream) or Customer(Price)
-  amount_due = 0; //set to zero everytime this method is called to get correct amount_due
+
   int loop = 0;
   Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Order");
   string f;
   while(loop < serving.size()){
     //loop through for each serving, for each flavor and topping
 
-    f = f + "Container:" + items.containers_to_string(serving[loop].get_containers())+ "\nFlavor:";
-    amount_due = amount_due + items.get_container_retail_price(serving[loop].get_containers());
+    f = f + "Container\n" + items.containers_to_string(serving[loop].get_containers())+ "\n\nFlavor\n";
 
     for(int i = 0; i < serving[loop].get_flavor_size(); i++)
     {
-      f = f + items.flavors_to_string(serving[loop].get_flavors(i)) + "\n\t\t";
-      amount_due = amount_due + items.get_flavor_retail_price(serving[loop].get_flavors(i));
+      f = f + items.flavors_to_string(serving[loop].get_flavors(i)) + "\n";
     }
-    f = f + "\nToppings:";
+
+    f = f + "\nToppings\n";
     for(int i = 0; i < serving[loop].get_topping_size(); i++)
     {
       f = f + items.toppings_to_string(serving[loop].get_topping(i)) + "\n\n";
-      amount_due = amount_due + items.get_topping_retail_price(serving[loop].get_topping(i));
     }
     loop++;
   }
@@ -500,7 +498,7 @@ string Controller::list_order_dialog(){//TODO List as Server(Contents to make ic
   while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 
   delete dialog;
-  cout << "current amount for order: " << amount_due << endl; //check for correct amount
+
 }
 
 //confirms the selection of serving
@@ -720,4 +718,53 @@ void Controller::show_status(){
   while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 
   delete dialog;
+}
+
+string Controller::list_order_customer(){
+  amount_due = 0; //set to zero everytime this method is called to get correct amount_due
+  int loop = 0;
+  Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Order");
+  string f;
+
+  while(loop < serving.size()){
+    //loop through for each serving, for each flavor and topping
+
+    f = f + "Serving #" + std::to_string(loop) + "\n\n" +items.containers_to_string(serving[loop].get_containers());
+    f = f + "  $" + std::to_string(items.get_container_retail_price(serving[loop].get_containers()));
+
+
+    //get total amount at the end
+    amount_due = amount_due + items.get_container_retail_price(serving[loop].get_containers());
+
+    f = f  + "\n\n";
+    for(int i = 0; i < serving[loop].get_flavor_size(); i++)
+    {
+      f = f + items.flavors_to_string(serving[loop].get_flavors(i));
+
+      f = f + "  $" + std::to_string(items.get_flavor_retail_price(serving[loop].get_flavors(i))) + "\n";
+
+      amount_due = amount_due + items.get_flavor_retail_price(serving[loop].get_flavors(i));
+    }
+    f = f + "\n\n";
+    for(int i = 0; i < serving[loop].get_topping_size(); i++)
+    {
+      f = f + items.toppings_to_string(serving[loop].get_topping(i));
+
+      f = f + "  $" + std::to_string(items.get_topping_retail_price(serving[loop].get_topping(i))) + "\n";
+      amount_due = amount_due + items.get_topping_retail_price(serving[loop].get_topping(i));
+    }
+    f = f + "\n";
+    loop++;
+  }
+  f = f + "\n\nTotal: $" + std::to_string(amount_due); //total cost
+  dialog->set_secondary_text(f);
+
+
+  dialog->run();
+
+  dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+  delete dialog;
+
 }
