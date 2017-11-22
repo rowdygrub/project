@@ -79,7 +79,7 @@ void Controller::add_person_dialog(int n){
     //phone
     Gtk::HBox b_phone;
 
-    Gtk::Label l_phone{"phone Cost:"};
+    Gtk::Label l_phone{"Phone Number:"};
     l_phone.set_width_chars(15);
     b_phone.pack_start(l_phone,Gtk::PACK_SHRINK);
 
@@ -93,19 +93,37 @@ void Controller::add_person_dialog(int n){
     dialog->add_button("OK",1);
     dialog->show_all();
 
-    int result = dialog->run();
-    dialog->close();
+    //REGEX
+    regex integer{"(\\+|-)?[[:digit:]]+"};
+    int id_int;
+    bool valid_data = false;
+    while(!valid_data)
+    {
+      if(dialog->run() != 1)
+      {
+        dialog->close();
+        return;
+      }
 
-    while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+      valid_data = true;
+      id = e_id.get_text();
+      if(regex_match(id,integer))
+      {
+        id_int = std::stoi(id);
+      }
+      else
+      {
+          e_id.set_text("*** Invalid ID ***");
+          valid_data = false;
+      }
+
+    }
 
     name = e_name.get_text();
-    id = e_id.get_text();
     phone = e_phone.get_text();
 
-
-    if(result == 1)
+    if(valid_data)
     {
-      int id_int = std::stoi(id);
       Person persons{name,id_int,phone};
       customer.push_back(persons);
     }
@@ -146,7 +164,7 @@ void Controller::add_person_dialog(int n){
     //phone
     Gtk::HBox b_phone;
 
-    Gtk::Label l_phone{"phone Cost:"};
+    Gtk::Label l_phone{"Phone Number:"};
     l_phone.set_width_chars(15);
     b_phone.pack_start(l_phone,Gtk::PACK_SHRINK);
 
@@ -172,19 +190,37 @@ void Controller::add_person_dialog(int n){
     dialog->add_button("OK",1);
     dialog->show_all();
 
-    int result = dialog->run();
-    dialog->close();
+    //REGEX
+    regex integer{"(\\+|-)?[[:digit:]]+"};
+    int id_int;
+    bool valid_data = false;
+    while(!valid_data)
+    {
+      if(dialog->run() != 1)
+      {
+        dialog->close();
+        return;
+      }
 
-    while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+      valid_data = true;
+      id = e_id.get_text();
+      if(regex_match(id,integer))
+      {
+        id_int = std::stoi(id);
+      }
+      else
+      {
+          e_id.set_text("*** Invalid ID ***");
+          valid_data = false;
+      }
+    }
 
     name = e_name.get_text();
-    id = e_id.get_text();
     phone = e_phone.get_text();
     salary = e_salary.get_text();
 
-    if(result == 1)
+    if(valid_data)
     {
-      int id_int = std::stoi(id);
       double salary_double = std::stod(salary);
       Server server{name,id_int,phone,0,salary_double};
       servers.push_back(server);
@@ -745,7 +781,7 @@ string Controller::list_order_customer(){
 
       amount_due = amount_due + items.get_flavor_retail_price(serving[loop].get_flavors(i));
     }
-    f = f + "\n\n";
+    f = f + "\n";
     for(int i = 0; i < serving[loop].get_topping_size(); i++)
     {
       f = f + items.toppings_to_string(serving[loop].get_topping(i));
@@ -756,7 +792,7 @@ string Controller::list_order_customer(){
     f = f + "\n";
     loop++;
   }
-  f = f + "\n\nTotal: $" + std::to_string(amount_due); //total cost
+  f = f + "\nTotal: $" + std::to_string(amount_due); //total cost
   dialog->set_secondary_text(f);
 
 

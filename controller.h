@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <regex>
 class Controller{
   public:
     void execute_cmd(int cmd);
