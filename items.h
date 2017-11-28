@@ -20,10 +20,12 @@ class Items {
     void load_container(string c);
     void load_toppings(string t);
 
+    //just name
     string containers_to_string(int index);
     string flavors_to_string(int index);
     string toppings_to_string(int index);
 
+    //gets prices
     string flavors_to_string2(int index);
     string containers_to_string2(int index);
     string toppings_to_string2(int index);
@@ -41,6 +43,11 @@ class Items {
     void is_stock_flavor(int index);
     void is_stock_container(int index);
     void is_stock_topping(int index);
+
+    int get_stock_flavor(int index);
+    int get_stock_container(int index);
+    int get_stock_topping(int index);
+
   private:
     vector <Flavors> flavors;
     vector <Containers> containers;

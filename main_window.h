@@ -15,7 +15,7 @@ class Main_window : public Gtk::Window{
     void on_add_customer_click();
     void on_add_server_click();
     void on_add_manager_click();
-    
+
     void on_save_click();
     void on_load_click();
     void on_pay_order_click();
@@ -25,6 +25,8 @@ class Main_window : public Gtk::Window{
     void on_list_serving_click();
     void on_list_order_customer_click();//list as customer price
 
+    void on_list_inventory_click();
+    
   private:
     Controller controller;
 

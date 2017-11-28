@@ -6,7 +6,6 @@ bool Toppings::is_stock(){
     return false;
   }
   stock = stock - 1;
-  cout << name << stock << endl;
   return true;
 }
 double Toppings::get_retail_price(){
@@ -19,3 +18,5 @@ string Toppings::to_string2(){
 
   return "\n" + description + "\n" + s + "\n";
 }
+
+int Toppings::get_stock(){return stock;}

@@ -25,7 +25,9 @@ class Controller{
 
     string list_order_dialog(); //list a single order with what items are included as server
     bool confirm_list_serving_dialog(int counter);//confirm the selection at the end of 1 serving
-    string list_order_customer();//
+    string list_order_customer();
+
+    void list_inventory();
 
     vector <Serving> serving;  //an order of servings
 

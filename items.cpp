@@ -434,3 +434,18 @@ void Items::is_stock_flavor(int index){
 void Items::is_stock_topping(int index){
   toppings[index].is_stock();
 }
+
+int Items::get_stock_flavor(int index){
+  int s = flavors[index].get_stock();
+  return s;
+}
+
+int Items::get_stock_container(int index){
+  int s = containers[index].get_stock();
+  return s;
+}
+
+int Items::get_stock_topping(int index){
+  int s = toppings[index].get_stock();
+  return s;
+}

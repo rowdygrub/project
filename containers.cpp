@@ -6,7 +6,6 @@ bool Containers::is_stock(){
     return false;
   }
   stock = stock - 1;
-  cout << name << stock << endl;
   return true;
 }
 
@@ -27,3 +26,5 @@ string Containers::to_string2(){
   "\n" + std::to_string(stock) + "\n" + std::to_string(maximum);
   return "\n" + description + "\n" + s + "\n";
 }
+
+int Containers::get_stock(){return stock;}

@@ -836,6 +836,7 @@ void Controller::show_status(){
   delete dialog;
 }
 
+//this button must be pressed before pay order so the amount is total up before
 string Controller::list_order_customer(){
   amount_due = 0; //set to zero everytime this method is called to get correct amount_due
   int loop = 0;
@@ -878,6 +879,40 @@ string Controller::list_order_customer(){
 
   dialog->run();
 
+  dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+  delete dialog;
+
+}
+
+//show all inventory
+void Controller::list_inventory(){
+  std::string f;
+  //list container
+  for(int i = 0; i < items.number_of_containers(); i++)
+  {
+    f = f + items.containers_to_string(i) + ": " + std::to_string(items.get_stock_container(i)) + "\n";
+  }
+
+  f = f + "\n";
+
+  //list flavor
+  for(int i = 0; i < items.number_of_flavors(); i++)
+  {
+    f = f + items.flavors_to_string(i) + ": " + std::to_string(items.get_stock_flavor(i)) + "\n";
+  }
+
+  f = f + "\n";
+  //list toppings
+  for(int i = 0; i < items.number_of_toppings(); i++)
+  {
+    f = f + items.toppings_to_string(i) + ": " + std::to_string(items.get_stock_topping(i)) + "\n";
+  }
+
+  Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Inventory");
+  dialog->set_secondary_text(f);
+  dialog->run();
   dialog->close();
   while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 

@@ -6,7 +6,6 @@ bool Flavors::is_stock(){
     return false;
   }
   stock = stock - 1;
-  cout << name << stock << endl;
   return true;
 }
 
@@ -21,3 +20,5 @@ string Flavors::to_string2(){
 
   return "\n" + description + "\n" + s + "\n";
 }
+
+int Flavors::get_stock(){return stock;}
