@@ -31,7 +31,8 @@ class Controller{
 
     vector <Person> customer;
     vector <Server> servers;
-    //add a manager vector
+    vector <Person> manager;
+
   private:
     Items items;
 

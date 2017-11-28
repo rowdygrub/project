@@ -11,9 +11,11 @@ class Main_window : public Gtk::Window{
     void on_quit_click();
 
     void on_add_items_click();
+
     void on_add_customer_click();
     void on_add_server_click();
     void on_add_manager_click();
+    
     void on_save_click();
     void on_load_click();
     void on_pay_order_click();

@@ -230,7 +230,87 @@ void Controller::add_person_dialog(int n){
 
   if(n == 2)//manager
   {
+    string name, id, phone;
 
+    Gtk::Dialog *dialog = new Gtk:: Dialog();
+    dialog->set_title("Add Manager");
+
+    //NAME
+    Gtk::HBox b_name;
+
+    Gtk::Label l_name{"Name:"};
+    l_name.set_width_chars(15);
+    b_name.pack_start(l_name,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_name;
+    e_name.set_max_length(50);
+    b_name.pack_start(e_name,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_name,Gtk::PACK_SHRINK);
+
+    //id
+    Gtk::HBox b_id;
+
+    Gtk::Label l_id{"id number:"};
+    l_id.set_width_chars(15);
+    b_id.pack_start(l_id,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_id;
+    e_id.set_max_length(50);
+    b_id.pack_start(e_id,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_id,Gtk::PACK_SHRINK);
+
+    //phone
+    Gtk::HBox b_phone;
+
+    Gtk::Label l_phone{"Phone Number:"};
+    l_phone.set_width_chars(15);
+    b_phone.pack_start(l_phone,Gtk::PACK_SHRINK);
+
+    Gtk::Entry e_phone;
+    e_phone.set_max_length(50);
+    b_phone.pack_start(e_phone,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(b_phone,Gtk::PACK_SHRINK);
+
+    //buttons
+    dialog->add_button("Cancel",0);
+    dialog->add_button("OK",1);
+    dialog->show_all();
+
+    //REGEX
+    regex integer{"(\\+|-)?[[:digit:]]+"};
+    int id_int;
+    bool valid_data = false;
+    while(!valid_data)
+    {
+      if(dialog->run() != 1)
+      {
+        dialog->close();
+        return;
+      }
+
+      valid_data = true;
+      id = e_id.get_text();
+      if(regex_match(id,integer))
+      {
+        id_int = std::stoi(id);
+      }
+      else
+      {
+          e_id.set_text("*** Invalid ID ***");
+          valid_data = false;
+      }
+
+    }
+
+    name = e_name.get_text();
+    phone = e_phone.get_text();
+
+    if(valid_data)
+    {
+      Person persons{name,id_int,phone};
+      manager.push_back(persons);
+    }
+    delete dialog;
   }
 
 }

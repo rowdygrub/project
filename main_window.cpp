@@ -60,6 +60,11 @@ Main_window::Main_window(){
   m_server->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_add_server_click));
   add_menu->append(*m_server);
 
+  //append manager to add menu
+  Gtk::MenuItem *m_manager = Gtk::manage(new Gtk::MenuItem("_Manager",true));
+  m_manager->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_add_manager_click));
+  add_menu->append(*m_manager);
+
   //create serving dropdown(Make a order button later)(Gtk::Toolbar)
   Gtk::MenuItem *menuitem_create = Gtk::manage(new Gtk::MenuItem("_Create",true));
   menubar->append(*menuitem_create);
@@ -143,6 +148,7 @@ void Main_window::on_quit_click(){hide();}
 void Main_window::on_add_items_click(){controller.add_dialog();}
 void Main_window::on_add_customer_click(){controller.add_person_dialog(0);}
 void Main_window::on_add_server_click(){controller.add_person_dialog(1);}
+void Main_window::on_add_manager_click(){controller.add_person_dialog(2);}
 void Main_window::on_save_click(){controller.save();}
 void Main_window::on_load_click(){controller.load();}
 void Main_window::on_pay_order_click(){controller.pay();}
