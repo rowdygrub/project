@@ -128,11 +128,20 @@ Main_window::Main_window(){
   toolbar->append(*show_status);
 
   //list inventory button
-  Gtk::ToolButton *inventory= Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
+  Gtk::Image *inventory_image = Gtk::manage(new Gtk::Image("inventory.png"));
+  Gtk::ToolButton *inventory= Gtk::manage(new Gtk::ToolButton(*inventory_image));
   inventory->set_tooltip_markup("List Inventory");
   inventory->signal_clicked().connect(sigc::mem_fun(*this,
   &Main_window::on_list_inventory_click));
   toolbar->append(*inventory);
+
+  //show report button
+  Gtk::Image *statement_image = Gtk::manage(new Gtk::Image("statement.png"));
+  Gtk::ToolButton *statement = Gtk::manage(new Gtk::ToolButton(*statement_image));
+  statement->set_tooltip_markup("Show Statement");
+  statement->signal_clicked().connect(sigc::mem_fun(*this,
+  &Main_window::on_statement_click));
+  toolbar->append(*statement);
 
   //seperate
   Gtk::SeparatorToolItem *sep = Gtk::manage(new Gtk::SeparatorToolItem());
@@ -162,3 +171,4 @@ void Main_window::on_pay_order_click(){controller.pay();}
 void Main_window::on_show_status_click(){controller.show_status();}
 void Main_window::on_list_order_customer_click(){controller.list_order_customer();}
 void Main_window::on_list_inventory_click(){controller.list_inventory();}
+void Main_window::on_statement_click(){controller.statement();}

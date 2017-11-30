@@ -413,6 +413,21 @@ double Items::get_flavor_retail_price(int index){
   return d;
 }
 
+double Items::get_wholesale_flavor(int index){
+  double d = flavors[index].get_wholesale_price();
+  return d;
+}
+
+double Items::get_wholesale_container(int index){
+  double d = containers[index].get_wholesale_price();
+  return d;
+}
+
+double Items::get_wholesale_topping(int index){
+  double d = toppings[index].get_wholesale_price();
+  return d;
+}
+
 double Items::get_topping_retail_price(int index){
   double d = toppings[index].get_retail_price();
   return d;

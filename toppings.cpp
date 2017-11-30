@@ -11,6 +11,11 @@ bool Toppings::is_stock(){
 double Toppings::get_retail_price(){
   return retail_price;
 }
+
+double Toppings::get_wholesale_price(){
+  return wholesale_cost;
+}
+
 string Toppings::to_string(){return name;}
 
 string Toppings::to_string2(){

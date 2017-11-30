@@ -13,6 +13,10 @@ double Flavors::get_retail_price(){
   return retail_price;
 }
 
+double Flavors::get_wholesale_price(){
+  return wholesale_cost;
+}
+
 string Flavors::to_string(){return name;}
 
 string Flavors::to_string2(){

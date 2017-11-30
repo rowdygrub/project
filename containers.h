@@ -12,6 +12,9 @@ class Containers{
       stock{stock}, maximum{maximum} {}
 
     double get_retail_price();
+    double get_wholesale_price();
+
+
     int get_stock();
     string to_string(); //list the contents
     string to_string2();//list everything else

@@ -13,6 +13,10 @@ double Containers::get_retail_price(){
   return retail_price;
 }
 
+double Containers::get_wholesale_price(){
+  return wholesale_cost;
+}
+
 int Containers::get_maximum(){
   return maximum;
 }

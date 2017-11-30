@@ -678,6 +678,7 @@ void Controller::pay(){
     if(c_pay.get_active_row_number() == 0)
     {
       status = "Paid";                          //calculate profit
+      income = income + amount_due;
       cash_register = cash_register + amount_due;
       amount_due = 0;
       cout << "cash register: " << cash_register << endl; //to check
@@ -743,6 +744,8 @@ void Controller::save(){
   cout << "File Saved\n";
 }
 
+//when adding any type of flavor, topping, or container, they CANNOT CONTAIN A SPACE
+//USE - instead
 void Controller::load(){
   ifstream ifs {"file"};
 
@@ -773,10 +776,12 @@ void Controller::load(){
       {
         items.load_flavors(f);
         f.clear();
+
       }
 
       f = f  + flavor[i] + " ";
     }
+
     //extra load flavor because of mod out of range
     items.load_flavors(f);
 
@@ -911,6 +916,65 @@ void Controller::list_inventory(){
   }
 
   Gtk::MessageDialog *dialog = new Gtk::MessageDialog("List Inventory");
+  dialog->set_secondary_text(f);
+  dialog->run();
+  dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
+  delete dialog;
+
+}
+
+//show a profit and loss statement with all income and losses(include servers)
+void Controller::statement(){
+  std:: string f;
+  double inventory_cost = 0;
+  double temp = 0; //store subtraction of inventory_cost and income
+
+  f = f + "Inventory Cost\n\n";
+  //get containers wholesale cost
+  for(int i = 0; i < items.number_of_containers(); i++)
+  {
+    f = f + items.containers_to_string(i) + ": $" + std::to_string(items.get_wholesale_container(i)) + "\n";
+    inventory_cost = inventory_cost + items.get_wholesale_container(i);
+  }
+
+  f = f + "\n";
+  //get flavors whole sale cost
+  for(int i = 0; i < items.number_of_flavors(); i++)
+  {
+    f = f + items.flavors_to_string(i) + ": $" + std::to_string(items.get_wholesale_flavor(i)) + "\n";
+    inventory_cost = inventory_cost + items.get_wholesale_flavor(i);
+  }
+
+  f = f + "\n";
+  //get toppings whole sale cost
+  for(int i = 0; i < items.number_of_toppings(); i++)
+  {
+    f = f + items.toppings_to_string(i) + ": $" + std::to_string(items.get_wholesale_topping(i)) + "\n";
+    inventory_cost = inventory_cost + items.get_wholesale_topping(i);
+  }
+
+  f = f + "\nTotal Inventory Cost: $" + std::to_string(inventory_cost);
+
+  //show income
+  f = f + "\nTotal Income: $" + std::to_string(income);
+  
+  //Profit and loss if else
+  temp = income - inventory_cost;
+  if(temp < 0)
+  {
+    temp = temp * -1;
+    f = f + "\nLoss: $" + std::to_string(temp);
+  }
+  else if(temp > 0)
+    f = f + "\nProfit: $" +std::to_string(temp);
+  else
+    f = f + "\nProfit and Loss Breakeven\n";
+
+
+
+  Gtk::MessageDialog *dialog = new Gtk::MessageDialog("Show Statement");
   dialog->set_secondary_text(f);
   dialog->run();
   dialog->close();

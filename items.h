@@ -48,6 +48,10 @@ class Items {
     int get_stock_container(int index);
     int get_stock_topping(int index);
 
+    double get_wholesale_flavor(int index);
+    double get_wholesale_container(int index);
+    double get_wholesale_topping(int index);
+
   private:
     vector <Flavors> flavors;
     vector <Containers> containers;

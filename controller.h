@@ -28,6 +28,7 @@ class Controller{
     string list_order_customer();
 
     void list_inventory();
+    void statement();
 
     vector <Serving> serving;  //an order of servings
 
@@ -49,6 +50,6 @@ class Controller{
     //cash register, every cash register starts at 500
     double cash_register = 500.00;
     double amount_due;
-
+    double income = 0;
 };
 #endif
